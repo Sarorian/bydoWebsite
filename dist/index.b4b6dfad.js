@@ -31537,30 +31537,213 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "TeamDataView", ()=>TeamDataView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _mapCard = require("../map-card/map-card");
+var _react = require("react");
+var _mapView = require("../map-view/map-view");
+var _s = $RefreshSig$();
 const TeamDataView = ({ teamData , onBackClick  })=>{
+    _s();
+    const [selectedMap, setSelectedMap] = (0, _react.useState)(null);
     const winrate = (teamData.reduce((acc, game)=>acc + game.win, 0) / teamData.length * 100).toFixed(2);
+    const gamesPlayed = teamData.length;
+    let totalAttackWins = 0;
+    let totalAttackLosses = 0;
+    let totalDefenceWins = 0;
+    let totalDefenceLosses = 0;
+    for (const match of teamData){
+        totalAttackWins += match.attack.wins;
+        totalAttackLosses += match.attack.losses;
+        totalDefenceWins += match.defence.wins;
+        totalDefenceLosses += match.defence.losses;
+    }
+    const attackWinrate = (totalAttackWins / (totalAttackLosses + totalAttackWins) * 100).toFixed(2);
+    const defenceWinrate = (totalDefenceWins / (totalDefenceLosses + totalDefenceWins) * 100).toFixed(2);
+    const mapStats = teamData.reduce((acc, match)=>{
+        const { comp , map , win  } = match;
+        const compStr = JSON.stringify(comp);
+        if (!acc[map]) acc[map] = {};
+        if (!acc[map][compStr]) acc[map][compStr] = {
+            attack: {
+                wins: 0,
+                losses: 0
+            },
+            defence: {
+                wins: 0,
+                losses: 0
+            },
+            plantedAt: {
+                a: 0,
+                b: 0,
+                c: 0
+            },
+            winType: {
+                bombDetonated: 0,
+                bombDefused: 0,
+                time: 0,
+                kills: 0
+            },
+            totalWins: 0,
+            totalLosses: 0
+        };
+        const compStats = acc[map][compStr];
+        const winTypeStats = compStats.winType;
+        if (win) compStats.totalWins++;
+        else compStats.totalLosses++;
+        compStats.plantedAt.a += match.plantedAt.a;
+        compStats.plantedAt.b += match.plantedAt.b;
+        compStats.plantedAt.c += match.plantedAt.c;
+        compStats.attack.wins += match.attack.wins;
+        compStats.attack.losses += match.attack.losses;
+        compStats.defence.wins += match.defence.wins;
+        compStats.defence.losses += match.defence.losses;
+        winTypeStats.bombDetonated += match.winType.bombDetonated;
+        winTypeStats.bombDefused += match.winType.bombDefused;
+        winTypeStats.time += match.winType.time;
+        winTypeStats.kills += match.winType.kills;
+        return acc;
+    }, {});
+    const mapStatsArray = Object.entries(mapStats).map(([map, compStatsMap])=>{
+        const compStatsArray = Object.entries(compStatsMap).map(([compStr, compStats])=>({
+                comp: JSON.parse(compStr),
+                ...compStats
+            }));
+        return {
+            map,
+            compStats: compStatsArray
+        };
+    });
+    if (selectedMap) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _mapView.MapView), {
+        map: selectedMap,
+        onBackClick: ()=>{
+            setSelectedMap(null);
+        }
+    }, void 0, false, {
+        fileName: "src/components/team-data-view/team-data-view.jsx",
+        lineNumber: 85,
+        columnNumber: 13
+    }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Winrate"
+                        children: "Winrate: "
                     }, void 0, false, {
                         fileName: "src/components/team-data-view/team-data-view.jsx",
-                        lineNumber: 8,
+                        lineNumber: 97,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: winrate
-                    }, void 0, false, {
+                        children: [
+                            winrate,
+                            "%"
+                        ]
+                    }, void 0, true, {
                         fileName: "src/components/team-data-view/team-data-view.jsx",
-                        lineNumber: 9,
+                        lineNumber: 98,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/team-data-view/team-data-view.jsx",
-                lineNumber: 7,
+                lineNumber: 96,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Attack Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 101,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            attackWinrate,
+                            "%"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 102,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/team-data-view/team-data-view.jsx",
+                lineNumber: 100,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Defence Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 105,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            defenceWinrate,
+                            "%"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 106,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/team-data-view/team-data-view.jsx",
+                lineNumber: 104,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Games Played: "
+                    }, void 0, false, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 109,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: gamesPlayed
+                    }, void 0, false, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 110,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/team-data-view/team-data-view.jsx",
+                lineNumber: 108,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Maps Played: "
+                    }, void 0, false, {
+                        fileName: "src/components/team-data-view/team-data-view.jsx",
+                        lineNumber: 113,
+                        columnNumber: 17
+                    }, undefined),
+                    mapStatsArray.map((map)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _mapCard.MapCard), {
+                            map: map,
+                            onMapClick: ()=>{
+                                setSelectedMap(map);
+                            }
+                        }, map._id, false, {
+                            fileName: "src/components/team-data-view/team-data-view.jsx",
+                            lineNumber: 115,
+                            columnNumber: 21
+                        }, undefined))
+                ]
+            }, void 0, true, {
+                fileName: "src/components/team-data-view/team-data-view.jsx",
+                lineNumber: 112,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -31568,16 +31751,17 @@ const TeamDataView = ({ teamData , onBackClick  })=>{
                 children: "Back"
             }, void 0, false, {
                 fileName: "src/components/team-data-view/team-data-view.jsx",
-                lineNumber: 11,
+                lineNumber: 124,
                 columnNumber: 13
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/team-data-view/team-data-view.jsx",
-        lineNumber: 6,
+        lineNumber: 95,
         columnNumber: 9
     }, undefined);
 };
+_s(TeamDataView, "8hhfbfxySpN8//roMIU5JE3wBBE=");
 _c = TeamDataView;
 var _c;
 $RefreshReg$(_c, "TeamDataView");
@@ -31587,6 +31771,466 @@ $RefreshReg$(_c, "TeamDataView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr"}],"lJZlQ":[function() {},{}]},["4JRsd","7ozsj","d8Dch"], "d8Dch", "parcelRequire7e6b")
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","../map-card/map-card":"8lCEr","react":"21dqq","../map-view/map-view":"fVvow"}],"8lCEr":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6c9f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$6c9f.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MapCard", ()=>MapCard);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const MapCard = ({ map , onMapClick  })=>{
+    _s();
+    const [mapImage, setMapImage] = (0, _react.useState)("");
+    (0, _react.useEffect)(()=>{
+        const fetchMapImage = async ()=>{
+            try {
+                const response = await fetch("https://valorant-api.com/v1/maps");
+                const data = await response.json();
+                const mapObj = data.data.find((mapData)=>mapData.displayName === map.map);
+                if (mapObj) setMapImage(mapObj.splash);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchMapImage();
+    }, [
+        map.map
+    ]);
+    console.log(map);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        onClick: ()=>{
+            onMapClick(map);
+        },
+        children: [
+            mapImage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                src: mapImage,
+                alt: `Map ${map.map}`,
+                style: {
+                    width: "96px",
+                    height: "54px"
+                }
+            }, void 0, false, {
+                fileName: "src/components/map-card/map-card.jsx",
+                lineNumber: 34,
+                columnNumber: 9
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {}, void 0, false, {
+                fileName: "src/components/map-card/map-card.jsx",
+                lineNumber: 40,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/map-card/map-card.jsx",
+        lineNumber: 28,
+        columnNumber: 5
+    }, undefined);
+};
+_s(MapCard, "K04d9NxGrxIw31UpPtDeqG2IkQg=");
+_c = MapCard;
+var _c;
+$RefreshReg$(_c, "MapCard");
+
+  $parcel$ReactRefreshHelpers$6c9f.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","react":"21dqq"}],"fVvow":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$7ae8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$7ae8.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MapView", ()=>MapView);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _compCard = require("../comp-card/comp-card");
+var _s = $RefreshSig$();
+const MapView = ({ map , onBackClick  })=>{
+    _s();
+    const [selectedComp, setSelectedComp] = (0, _react.useState)(null);
+    const { compStats  } = map;
+    let totalAttack = {
+        wins: 0,
+        losses: 0
+    };
+    let totalDefence = {
+        wins: 0,
+        losses: 0
+    };
+    let totalWins = 0, totalLosses = 0;
+    let totalPlantedAt = {
+        a: 0,
+        b: 0,
+        c: 0
+    };
+    let totalWinType = {
+        bombDetonated: 0,
+        bombDefused: 0,
+        time: 0,
+        kills: 0
+    };
+    for (const comp of compStats){
+        totalAttack.wins += comp.attack.wins;
+        totalAttack.losses += comp.attack.losses;
+        totalDefence.wins += comp.defence.wins;
+        totalDefence.losses += comp.defence.losses;
+        totalWins += comp.totalWins;
+        totalLosses += comp.totalLosses;
+        totalPlantedAt.a += comp.plantedAt.a;
+        totalPlantedAt.b += comp.plantedAt.b;
+        totalPlantedAt.c += comp.plantedAt.c;
+        totalWinType.bombDetonated += comp.winType.bombDetonated;
+        totalWinType.bombDefused += comp.winType.bombDefused;
+        totalWinType.time += comp.winType.time;
+        totalWinType.kills += comp.winType.kills;
+    }
+    const winrate = (totalWins / (totalWins + totalLosses) * 100).toFixed(2);
+    const attackWinrate = (totalAttack.wins / (totalAttack.losses + totalAttack.wins) * 100).toFixed(2);
+    const defenceWinrate = (totalDefence.wins / (totalDefence.losses + totalDefence.wins) * 100).toFixed(2);
+    console.log(compStats);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    map.map,
+                    " Stats"
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 41,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 45,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            winrate,
+                            "% "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 46,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "W: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 47,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalWins,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 48,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "L: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 49,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalLosses,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 50,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 44,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Attack Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 53,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            attackWinrate,
+                            "% "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 54,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "RW: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 55,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalAttack.wins,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 56,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "RL: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 57,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalAttack.losses,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 58,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 52,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Defence Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 61,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            defenceWinrate,
+                            "% "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 62,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "RW: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 63,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalDefence.wins,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 64,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "RL: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 65,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            totalDefence.losses,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 66,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 60,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Games Played: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 69,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: totalWins + totalLosses
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 70,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 68,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Comps: "
+                    }, void 0, false, {
+                        fileName: "src/components/map-view/map-view.jsx",
+                        lineNumber: 73,
+                        columnNumber: 17
+                    }, undefined),
+                    compStats.map((comp)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _compCard.CompCard), {
+                            comp: comp,
+                            onMapClick: ()=>{
+                                setSelectedComp(comp);
+                            }
+                        }, void 0, false, {
+                            fileName: "src/components/map-view/map-view.jsx",
+                            lineNumber: 75,
+                            columnNumber: 21
+                        }, undefined))
+                ]
+            }, void 0, true, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 72,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                onClick: onBackClick,
+                children: "Back"
+            }, void 0, false, {
+                fileName: "src/components/map-view/map-view.jsx",
+                lineNumber: 83,
+                columnNumber: 13
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/map-view/map-view.jsx",
+        lineNumber: 40,
+        columnNumber: 9
+    }, undefined);
+};
+_s(MapView, "2mif/uKfMDkQU8mt0eVa9dRFUgQ=");
+_c = MapView;
+var _c;
+$RefreshReg$(_c, "MapView");
+
+  $parcel$ReactRefreshHelpers$7ae8.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","../comp-card/comp-card":"3C07s"}],"3C07s":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$0152 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$0152.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CompCard", ()=>CompCard);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const CompCard = ({ comp , onCompClick  })=>{
+    _s();
+    const compTemp = Object.values(comp.comp);
+    const stringComp = compTemp.join(" ");
+    const agentArray = stringComp.split(" ");
+    const [agentImages, setAgentImages] = (0, _react.useState)([]);
+    (0, _react.useEffect)(()=>{
+        const fetchAgentImages = async ()=>{
+            try {
+                const response = await fetch("https://valorant-api.com/v1/agents");
+                const data = await response.json();
+                const images = agentArray.map((agent)=>{
+                    const agentObj = data.data.find((agentData)=>agentData.displayName === agent);
+                    return agentObj ? agentObj.displayIconSmall : null;
+                });
+                setAgentImages(images);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchAgentImages();
+    }, [
+        agentArray
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        onClick: ()=>{
+            onCompClick(comp);
+        },
+        children: agentImages.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                src: image,
+                alt: `Agent ${index + 1}`,
+                style: {
+                    width: "50px",
+                    height: "50px"
+                }
+            }, index, false, {
+                fileName: "src/components/comp-card/comp-card.jsx",
+                lineNumber: 36,
+                columnNumber: 9
+            }, undefined))
+    }, void 0, false, {
+        fileName: "src/components/comp-card/comp-card.jsx",
+        lineNumber: 30,
+        columnNumber: 5
+    }, undefined);
+};
+_s(CompCard, "WyJq40lzdhOShhGSs/FUL+Bn3BU=");
+_c = CompCard;
+var _c;
+$RefreshReg$(_c, "CompCard");
+
+  $parcel$ReactRefreshHelpers$0152.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","react":"21dqq"}],"lJZlQ":[function() {},{}]},["4JRsd","7ozsj","d8Dch"], "d8Dch", "parcelRequire7e6b")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
