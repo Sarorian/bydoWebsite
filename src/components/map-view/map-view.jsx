@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { CompCard } from "../comp-card/comp-card";
+import { CompView } from "../comp-view/comp-view";
 
 export const MapView = ({ map, onBackClick}) => {
     
@@ -35,6 +36,17 @@ export const MapView = ({ map, onBackClick}) => {
     const defenceWinrate = (totalDefence.wins / (totalDefence.losses + totalDefence.wins) * 100).toFixed(2);
 
     console.log(compStats);
+
+    if (selectedComp) {
+        return (
+            <CompView
+                comp={selectedComp}
+                onBackClick={() => {
+                    setSelectedComp(null);
+                }}
+            />
+        );
+    }
 
     return (
         <div>
@@ -74,7 +86,7 @@ export const MapView = ({ map, onBackClick}) => {
                 {compStats.map((comp) => (
                     <CompCard
                         comp={comp}
-                        onMapClick={() => {
+                        onCompClick={() => {
                             setSelectedComp(comp);
                         }} 
                     />

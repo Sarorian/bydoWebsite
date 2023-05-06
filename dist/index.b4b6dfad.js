@@ -31794,7 +31794,7 @@ const MapCard = ({ map , onMapClick  })=>{
                 const response = await fetch("https://valorant-api.com/v1/maps");
                 const data = await response.json();
                 const mapObj = data.data.find((mapData)=>mapData.displayName === map.map);
-                if (mapObj) setMapImage(mapObj.splash);
+                if (mapObj) setMapImage(mapObj.listViewIcon);
             } catch (error) {
                 console.error(error);
             }
@@ -31811,11 +31811,7 @@ const MapCard = ({ map , onMapClick  })=>{
         children: [
             mapImage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                 src: mapImage,
-                alt: `Map ${map.map}`,
-                style: {
-                    width: "96px",
-                    height: "54px"
-                }
+                alt: `Map ${map.map}`
             }, void 0, false, {
                 fileName: "src/components/map-card/map-card.jsx",
                 lineNumber: 34,
@@ -31856,6 +31852,7 @@ parcelHelpers.export(exports, "MapView", ()=>MapView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _compCard = require("../comp-card/comp-card");
+var _compView = require("../comp-view/comp-view");
 var _s = $RefreshSig$();
 const MapView = ({ map , onBackClick  })=>{
     _s();
@@ -31900,6 +31897,16 @@ const MapView = ({ map , onBackClick  })=>{
     const attackWinrate = (totalAttack.wins / (totalAttack.losses + totalAttack.wins) * 100).toFixed(2);
     const defenceWinrate = (totalDefence.wins / (totalDefence.losses + totalDefence.wins) * 100).toFixed(2);
     console.log(compStats);
+    if (selectedComp) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _compView.CompView), {
+        comp: selectedComp,
+        onBackClick: ()=>{
+            setSelectedComp(null);
+        }
+    }, void 0, false, {
+        fileName: "src/components/map-view/map-view.jsx",
+        lineNumber: 42,
+        columnNumber: 13
+    }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -31909,7 +31916,7 @@ const MapView = ({ map , onBackClick  })=>{
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 41,
+                lineNumber: 53,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -31918,7 +31925,7 @@ const MapView = ({ map , onBackClick  })=>{
                         children: "Winrate: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 45,
+                        lineNumber: 57,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -31928,14 +31935,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 46,
+                        lineNumber: 58,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "W: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 47,
+                        lineNumber: 59,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -31945,14 +31952,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 48,
+                        lineNumber: 60,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "L: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 49,
+                        lineNumber: 61,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -31962,13 +31969,13 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 50,
+                        lineNumber: 62,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 44,
+                lineNumber: 56,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -31977,7 +31984,7 @@ const MapView = ({ map , onBackClick  })=>{
                         children: "Attack Winrate: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 53,
+                        lineNumber: 65,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -31987,14 +31994,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 54,
+                        lineNumber: 66,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "RW: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 55,
+                        lineNumber: 67,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -32004,14 +32011,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 56,
+                        lineNumber: 68,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "RL: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 57,
+                        lineNumber: 69,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -32021,13 +32028,13 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 58,
+                        lineNumber: 70,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 52,
+                lineNumber: 64,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32036,7 +32043,7 @@ const MapView = ({ map , onBackClick  })=>{
                         children: "Defence Winrate: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 61,
+                        lineNumber: 73,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -32046,14 +32053,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 62,
+                        lineNumber: 74,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "RW: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 63,
+                        lineNumber: 75,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -32063,14 +32070,14 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 64,
+                        lineNumber: 76,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: "RL: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 65,
+                        lineNumber: 77,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -32080,13 +32087,13 @@ const MapView = ({ map , onBackClick  })=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 66,
+                        lineNumber: 78,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 60,
+                lineNumber: 72,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32095,20 +32102,20 @@ const MapView = ({ map , onBackClick  })=>{
                         children: "Games Played: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 69,
+                        lineNumber: 81,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: totalWins + totalLosses
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 70,
+                        lineNumber: 82,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 68,
+                lineNumber: 80,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32117,23 +32124,23 @@ const MapView = ({ map , onBackClick  })=>{
                         children: "Comps: "
                     }, void 0, false, {
                         fileName: "src/components/map-view/map-view.jsx",
-                        lineNumber: 73,
+                        lineNumber: 85,
                         columnNumber: 17
                     }, undefined),
                     compStats.map((comp)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _compCard.CompCard), {
                             comp: comp,
-                            onMapClick: ()=>{
+                            onCompClick: ()=>{
                                 setSelectedComp(comp);
                             }
                         }, void 0, false, {
                             fileName: "src/components/map-view/map-view.jsx",
-                            lineNumber: 75,
+                            lineNumber: 87,
                             columnNumber: 21
                         }, undefined))
                 ]
             }, void 0, true, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 72,
+                lineNumber: 84,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -32141,13 +32148,13 @@ const MapView = ({ map , onBackClick  })=>{
                 children: "Back"
             }, void 0, false, {
                 fileName: "src/components/map-view/map-view.jsx",
-                lineNumber: 83,
+                lineNumber: 95,
                 columnNumber: 13
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/map-view/map-view.jsx",
-        lineNumber: 40,
+        lineNumber: 52,
         columnNumber: 9
     }, undefined);
 };
@@ -32161,7 +32168,7 @@ $RefreshReg$(_c, "MapView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","../comp-card/comp-card":"3C07s"}],"3C07s":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","../comp-card/comp-card":"3C07s","../comp-view/comp-view":"mAexn"}],"3C07s":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$0152 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -32231,6 +32238,149 @@ $RefreshReg$(_c, "CompCard");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","react":"21dqq"}],"lJZlQ":[function() {},{}]},["4JRsd","7ozsj","d8Dch"], "d8Dch", "parcelRequire7e6b")
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr","react":"21dqq"}],"mAexn":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$80f0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$80f0.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CompView", ()=>CompView);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _compCard = require("../comp-card/comp-card");
+var _s = $RefreshSig$();
+const CompView = ({ comp , onBackClick  })=>{
+    _s();
+    const compTemp = Object.values(comp.comp);
+    const stringComp = compTemp.join(" ");
+    const agentArray = stringComp.split(" ");
+    const [agentImages, setAgentImages] = (0, _react.useState)([]);
+    const winrate = (comp.totalWins / (comp.totalWins + comp.totalLosses) * 100).toFixed(2);
+    (0, _react.useEffect)(()=>{
+        const fetchAgentImages = async ()=>{
+            try {
+                const response = await fetch("https://valorant-api.com/v1/agents");
+                const data = await response.json();
+                const images = agentArray.map((agent)=>{
+                    const agentObj = data.data.find((agentData)=>agentData.displayName === agent);
+                    return agentObj ? agentObj.displayIconSmall : null;
+                });
+                setAgentImages(images);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchAgentImages();
+    }, [
+        agentArray
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: agentImages.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                        src: image,
+                        alt: `Agent ${index + 1}`,
+                        style: {
+                            width: "50px",
+                            height: "50px"
+                        }
+                    }, index, false, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 37,
+                        columnNumber: 13
+                    }, undefined))
+            }, void 0, false, {
+                fileName: "src/components/comp-view/comp-view.jsx",
+                lineNumber: 35,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Winrate: "
+                    }, void 0, false, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 46,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            winrate,
+                            "% "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 47,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "W: "
+                    }, void 0, false, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 48,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            comp.totalWins,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 49,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "L: "
+                    }, void 0, false, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 50,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: [
+                            comp.totalLosses,
+                            " "
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/comp-view/comp-view.jsx",
+                        lineNumber: 51,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/comp-view/comp-view.jsx",
+                lineNumber: 45,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                onClick: onBackClick,
+                children: "Back"
+            }, void 0, false, {
+                fileName: "src/components/comp-view/comp-view.jsx",
+                lineNumber: 53,
+                columnNumber: 12
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/comp-view/comp-view.jsx",
+        lineNumber: 34,
+        columnNumber: 9
+    }, undefined);
+};
+_s(CompView, "WyJq40lzdhOShhGSs/FUL+Bn3BU=");
+_c = CompView;
+var _c;
+$RefreshReg$(_c, "CompView");
+
+  $parcel$ReactRefreshHelpers$80f0.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../comp-card/comp-card":"3C07s","@parcel/transformer-js/src/esmodule-helpers.js":"ksdlB","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7tTPr"}],"lJZlQ":[function() {},{}]},["4JRsd","7ozsj","d8Dch"], "d8Dch", "parcelRequire7e6b")
 
 //# sourceMappingURL=index.b4b6dfad.js.map

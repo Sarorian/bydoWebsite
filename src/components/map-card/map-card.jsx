@@ -12,7 +12,7 @@ export const MapCard = ({ map, onMapClick }) => {
           (mapData) => mapData.displayName === map.map
         );
         if (mapObj) {
-          setMapImage(mapObj.splash);
+          setMapImage(mapObj.listViewIcon);
         }
       } catch (error) {
         console.error(error);
@@ -34,7 +34,7 @@ export const MapCard = ({ map, onMapClick }) => {
         <img
           src={mapImage}
           alt={`Map ${map.map}`}
-            style={{ width: "96px", height: "54px" }}
+            //style={{ width: "96px", height: "54px" }}
         />
       )}
       <span></span>
